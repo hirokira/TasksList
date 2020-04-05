@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sample.mapper.TaskMapper">
+
+
+    <select id="findAll" resultType="com.sample.entity.Task">
+        SELECT * FROM Task
+    </select>
+
+    <select id="select" resultType="com.sample.entity.Task">
+    	select * from task where id = #{id}
+    </select>
+
+
+</mapper>

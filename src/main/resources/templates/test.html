@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>テスト</title>
+	<meta http-equiv="Content-Type"
+		content="text/html; charset=UTF-8" />
+
+	<style>
+	h1 { font-size:18pt; font-weight:bold; color:gray; }
+	body { font-size:13pt; color:gray; margin:5px 25px; }
+	tr { margin:5px; }
+	th { padding:5px; color:white; background:darkgray; }
+	td { padding:5px; color:black; background:#f0f0f0; }
+	.err { color:red; }
+	</style>
+</head>
+<body>
+
+	<h1>Top Page</h1>
+
+	<p th:text="${name}"></p>
+	<p th:text="${pass}"></p>
+
+
+
+	<div>
+		<p><a th:href="@{'/user/new'}">新規ユーザー登録</a></p>
+	</div>
+
+</body>
+</html>

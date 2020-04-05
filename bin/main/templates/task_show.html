@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>タスク管理システム</title>
+	<meta http-equiv="Content-Type"
+		content="text/html; charset=UTF-8" />
+	<style>
+	h1 { font-size:18pt; font-weight:bold; color:gray; }
+	body { font-size:13pt; color:gray; margin:5px 25px; }
+	tr { margin:5px; }
+	th { padding:5px; color:white; background:darkgray; }
+	td { padding:5px; color:black; background:#f0f0f0; }
+	.err { color:red; }
+	</style>
+</head>
+<body>
+
+	<h1 th:text="#{content.title}"></h1>
+	<p th:text="${msg}"></p>
+
+<div th:object="${formModel}">
+	<table>
+		<tr><td><p th:text="|名前: ${loginUser.nickName}|"></p></td></tr>
+		<tr><td><p th:text="|タイトル：*{title}|"></p></td></tr>
+		<tr><td><p th:text="|内容：*{detail}|"></p></td></tr>
+		<tr><td><p th:text="|期限日：*{due_date}|"></p></td></tr>
+		<tr><td><p th:text="|重要度：*{importance}|"></p></td></tr>
+		<tr><td><p th:text="|完了日時：*{completion_date}|"></p></td></tr>
+
+	</table>
+
+</div>
+</body>
+</html>

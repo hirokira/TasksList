@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>タスク管理システム</title>
+	<meta http-equiv="Content-Type"
+		content="text/html; charset=UTF-8" />
+
+	<style>
+	h1 { font-size:18pt; font-weight:bold; color:gray; }
+	body { font-size:13pt; color:gray; margin:5px 25px; }
+	tr { margin:5px; }
+	th { padding:5px; color:white; background:darkgray; }
+	td { padding:5px; color:black; background:#f0f0f0; }
+	.err { color:red; }
+	</style>
+</head>
+<body>
+
+	<p th:text="${flush}"></p>
+	<p th:text="${loginUser.name}"></p>
+	<p th:text="|ログインユーザー：${loginUser.nickName}さん|"></p>
+
+	<table>
+		<tr><th>ID</th><th>名前</th><th>タイトル</th><th>内容</th><th>重要度</th></tr>
+		<tr th:each="obj : ${list}" th:object="${obj}">
+			<td><a th:href="@{/tasks/show/{id}(id=*{id})}"><div th:text=*{id}></div></a></td>
+			<td th:text="*{user}"></td>
+			<td th:text="*{title}"></td>
+			<td th:text="*{detail}"></td>
+			<td th:text="*{importance}"></td>
+			<td th:text="*{due_date}"></td></tr>
+
+	</table>
+
+</body>
+</html>
