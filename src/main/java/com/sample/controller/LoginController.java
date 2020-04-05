@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sample.component.SessionLoginUser;
 import com.sample.entity.User;
 import com.sample.service.UserService;
 
@@ -22,6 +23,9 @@ public class LoginController {
 
 	@Autowired
 	HttpSession session;
+
+	@Autowired
+	private SessionLoginUser sessionUser;
 
 
 
@@ -57,6 +61,7 @@ public class LoginController {
 		ModelAndView res = null;
 		User user = null;
 
+		// ログインチェック　(true:checkFlag=true)
 		if(name!=null && !name.equals("") && password!=null && !password.equals("")) {
 			try {
 				user = userService.checkResult(name, password);
@@ -72,6 +77,8 @@ public class LoginController {
 			if(user.getNickName()==null) {  //ニックネーム(表示名)がNullならば、ユーザー名をニックネームにする。
 				user.setNickName(user.getName());
 			}
+			sessionUser.setLoginUser(user);
+
 			session.setAttribute("loginUser", user); //ログインユーザー名
 			session.setAttribute("flush", "ログインに成功しました。"); //フラッシュメッセージ
 			//リダイレクト /tasks

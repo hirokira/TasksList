@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sample.bean.TaskBean;
+import com.sample.component.SessionLoginUser;
 import com.sample.service.TaskService;
 
 @Controller
@@ -23,6 +24,9 @@ public class TasksController {
 	@Autowired
 	private TaskService tasksService;
 
+	@Autowired
+	private SessionLoginUser sessionUser;
+
 
 	// task 一覧
 	@RequestMapping(value="/tasks",method=RequestMethod.GET)
@@ -30,7 +34,8 @@ public class TasksController {
 		mav.setViewName("task_index");
 		//ログインユーザー名の取得
 		mav.addObject("flush", session.getAttribute("flush"));
-		mav.addObject("loginUser", session.getAttribute("loginUser"));
+		//mav.addObject("loginUser", session.getAttribute("loginUser"));
+		mav.addObject("loginUser", sessionUser.getLoginUser());
 
 		List<TaskBean> listBean = tasksService.findAllBean(); //TaskList一覧を型変換を行った状態で取得。
 		mav.addObject("list", listBean);
