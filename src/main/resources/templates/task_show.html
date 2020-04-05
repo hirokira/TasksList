@@ -20,7 +20,7 @@
 
 <div th:object="${formModel}">
 	<table>
-		<tr><td><p th:text="|名前: ${loginUser.nickName}|"></p></td></tr>
+		<tr><td><p th:text="|名前: *{user}|"></p></td></tr>
 		<tr><td><p th:text="|タイトル：*{title}|"></p></td></tr>
 		<tr><td><p th:text="|内容：*{detail}|"></p></td></tr>
 		<tr><td><p th:text="|期限日：*{due_date}|"></p></td></tr>

@@ -21,11 +21,9 @@
 	<p th:text="|ログインユーザー：${loginUser.nickName}さん|"></p>
 
 	<table>
-		<tr><th>ID</th><th>名前</th><th>タイトル</th><th>内容</th><th>重要度</th></tr>
+		<tr><th>タイトル</th><th>内容</th><th>重要度</th><th>期限</th></tr>
 		<tr th:each="obj : ${list}" th:object="${obj}">
-			<td><a th:href="@{/tasks/show/{id}(id=*{id})}"><div th:text=*{id}></div></a></td>
-			<td th:text="*{user}"></td>
-			<td th:text="*{title}"></td>
+			<td><a th:href="@{/tasks/show/{id}(id=*{id})}"><div th:text=*{title}></div></a></td>
 			<td th:text="*{detail}"></td>
 			<td th:text="*{importance}"></td>
 			<td th:text="*{due_date}"></td></tr>

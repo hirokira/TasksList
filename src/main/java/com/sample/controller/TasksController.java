@@ -1,5 +1,6 @@
 package com.sample.controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -38,6 +39,8 @@ public class TasksController {
 		mav.addObject("loginUser", sessionUser.getLoginUser());
 
 		List<TaskBean> listBean = tasksService.findAllBean(); //TaskList一覧を型変換を行った状態で取得。
+		Date nowTime =new Date(System.currentTimeMillis());
+		mav.addObject("nowTime", nowTime);
 		mav.addObject("list", listBean);
 
 		return mav;

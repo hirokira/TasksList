@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.sample.entity.User;
 
+
+
+//-------   ログオンユーザー用セッション管理クラス ------------
+
 @Component
 @Scope(value= "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SessionLoginUser implements Serializable{
