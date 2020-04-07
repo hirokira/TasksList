@@ -1,7 +1,5 @@
 package com.sample.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,18 +25,6 @@ public class LoginController {
 	@Autowired
 	private SessionLoginUser sessionUser;
 
-
-
-	// ユーザー一覧画面(/user/index)
-	@RequestMapping(value="/user/index",method=RequestMethod.GET)
-	public ModelAndView tasks_index(ModelAndView mav) {
-
-		mav.setViewName("user_index");
-		List<User> list=userService.findAll();
-		mav.addObject("list", list);
-		mav.addObject("msg", "タスクリスト一覧");
-		return mav;
-	}
 
 
 

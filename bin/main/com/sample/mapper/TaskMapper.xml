@@ -11,5 +11,10 @@
     	select * from task where id = #{id}
     </select>
 
+    <select id = "insert">
+    	insert into task values (#{id},#{user},#{title},#{detail},#{due_date},#{importance},#{completion_date},#{insert_user},#{insert_date},
+    	#{update_user},#{update_date})
+    </select>
+
 
 </mapper>

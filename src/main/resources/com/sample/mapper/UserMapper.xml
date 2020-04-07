@@ -12,7 +12,7 @@
     </select>
 
     <select id = "insert">
-    	insert into user (name) values (#{name})
+    	insert into user values (#{id},#{name},#{password},#{nickName},#{active_from},#{active_to})
     </select>
 
     <select id = "update">
@@ -25,6 +25,14 @@
 
     <select id = "checkResult" resultType="com.sample.entity.User">
     	SELECT * FROM USER WHERE name = #{name} AND password = #{password}
+    </select>
+
+    <select id = "checkIdResult" resultType="com.sample.entity.User">
+    	SELECT * FROM USER WHERE id = #{id}
+    </select>
+
+    <select id = "checkNameResult" resultType="com.sample.entity.User">
+    	SELECT * FROM USER WHERE name = #{name}
     </select>
 
 

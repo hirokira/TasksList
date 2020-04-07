@@ -1,5 +1,7 @@
 package com.sample.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,5 +48,17 @@ public class TaskService {
 	public TaskBean selectBean(int id) {
 		TaskBean bean = new TaskBean(tasksMapper.select(id));
 		return bean;
+	}
+
+
+
+	// 新規TaskINSERT
+	public void insert(TaskBean task) {
+		DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		DateFormat df2 = new SimpleDateFormat("yyyy/MM/dd");
+		tasksMapper.insert(task.getId(),task.getUser(), task.getTitle(), task.getDetail(), df.format(task.getDue_date()),
+				task.getImportance(), df2.format(task.getCompletion_date()), task.getInsert_user(), df2.format(task.getInsert_date()),
+				task.getUpdate_user(),df2.format(task.getUpdate_date()));
+
 	}
 }

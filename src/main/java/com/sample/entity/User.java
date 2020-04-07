@@ -11,7 +11,7 @@ public class User {
 
 
 	@Length(max=10)
-	private int id;
+	private Integer id;
 
 	@Length(max=100)
 	private String name;
@@ -24,13 +24,6 @@ public class User {
 
 	private String active_from;
 
-	private String active_until;
+	private String active_to;
 
-	private String update_user;
-
-	private String update_date;
-
-	private String insert_user;
-
-	private String insert_date;
 }
