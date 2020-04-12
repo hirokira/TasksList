@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>テスト</title>
+	<title>タスク管理システム</title>
 	<meta http-equiv="Content-Type"
 		content="text/html; charset=UTF-8" />
 
@@ -17,6 +17,28 @@
 <body>
 
 	<h1>ユーザー情報一覧</h1>
+	<p th:text="${flush}"></p>
+	<p th:text="${remnantTime}"></p>
+
+	<form action="/user/index" method="post" >
+
+		<tr><td><label for="name">ユーザー</label></td>
+	  	<select id="name" name="name">
+	  		<option value="">---</option>
+	  		<option th:each="user : ${list}" th:value="${user.name}" th:text="${user.name}"></option>
+  		</select>
+  		</td></tr><br />
+
+		<div>
+			<input type="checkbox" name="check1"  />
+			<label for="check1">有効終了日まで30日未満のユーザー</label><br/>
+			<input type="checkbox" name="check2"  />
+			<label for="check2">有効終了日まで30日以上のユーザー</label>
+		</div>
+			<tr><td><input type="submit" value="更新" /></td></tr>
+
+	</form>
+	<br />
 
 	<table>
 		<tr><th>ID</th><th>名前</th><th>表示名</th><th>有効開始日</th><th>有効終了日</th></tr>

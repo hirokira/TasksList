@@ -5,6 +5,8 @@ import java.sql.Date;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.sample.entity.User;
 
 import lombok.Getter;
@@ -26,18 +28,23 @@ public class UserBean {
 		this.active_to = Date.valueOf(user.getActive_to());
 	}
 
+
 	@NotNull
 	@NotEmpty(message="IDを入力してください。")
+	@Length(max=10)
 	private String id;
 
 	@NotNull
 	@NotEmpty(message="名前を入力してください。")
+	@Length(max=100)
 	private String name;
 
 	@NotNull
 	@NotEmpty(message="パスワードを入力してください。")
+	@Length(max=100)
 	private String password;
 
+	@Length(max=16)
 	private String nickName;
 
 	private Date active_from;

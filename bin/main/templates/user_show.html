@@ -18,16 +18,51 @@
 	<h1 th:text="#{content.title}"></h1>
 	<p th:text="${msg}"></p>
 
-<div th:object="${formModel}">
-	<table>
-		<tr><td><p th:text="|ID: *{id}|"></p></td></tr>
-		<tr><td><p th:text="|名前：*{name}|"></p></td></tr>
-		<tr><td><p th:text="|表示名：*{nickName}|"></p></td></tr>
-		<tr><td><p th:text="|有効開始日：*{active_from}|"></p></td></tr>
-		<tr><td><p th:text="|有効終了日：*{active_to}|"></p></td></tr>
-	</table>
 
+<form th:if="${flag}" action="/user/show/{id}" method="post" th:object="${formModel}">
+	<input type = "hidden" name="id" th:value="*{id}" />
+	<input type="submit" value="編集" />
+</form>
 
+<div th:unless="${editFlag}">
+	<div th:object="${formModel}">
+		<table>
+			<tr><td><p th:text="|ID: *{id}|"></p></td></tr>
+			<tr><td><p th:text="|名前：*{name}|"></p></td></tr>
+			<tr><td><p th:text="|表示名：*{nickName}|"></p></td></tr>
+			<tr><td><p th:text="|有効開始日：*{active_from}|"></p></td></tr>
+			<tr><td><p th:text="|有効終了日：*{active_to}|"></p></td></tr>
+		</table>
+	</div>
 </div>
+
+<table th:if="${editFlag}">
+	<form action="/user/update" method="post" th:object="${formModel}">
+		<ul>
+			<li th:each="error : ${#fields.detailedErrors()}" class = "err" th:text="${error.message}" />
+		</ul>
+			<tr><td><label for="id">ID</label></td>
+				<td><input type="text" name="id" th:value="*{id}" /></td></tr>
+
+			<tr><td><label for="name">ユーザ</label></td>
+				<td><input type="text" name="name" th:value="*{name}" /></td></tr>
+
+			<tr><td><label for="password">パスワード</label></td>
+				<td><input type="text" name="password" th:value="*{password}" /></td></tr>
+
+			<tr><td><label for="nickName">表示名</label></td>
+				<td><input type="text" name="nickName" th:value="*{nickName}" /></td></tr>
+
+			<tr><td><label for="active_from">有効開始日</label></td>
+				<td><input type="date" name="active_from" th:value="*{active_from}" /></td></tr>
+
+			<tr><td><label for="active_to">有効終了日</label></td>
+				<td><input type="date" name="active_to" th:value="*{active_to}" /></td></tr>
+
+			<tr><td><input type="submit" value="保存" /></td></tr>
+	</form>
+</table>
+	<p><a th:href="@{/user/delete/{id}(id=${formModel.id})}"><span th:if="${flag}" th:text="|ID:${formModel.id}のユーザーを削除する|"></span></a></p>
+	<p><a th:href="@{/user/index}">ユーザー一覧へ戻る</a></p>
 </body>
 </html>
