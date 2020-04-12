@@ -56,6 +56,8 @@ public class TimeFilterLogic {
 					lists = null;
 				}
 			}
+		}else { //それ以外の場合(check1,check2が共にfalse)
+			lists = null;
 		}
 		return lists;
 	}

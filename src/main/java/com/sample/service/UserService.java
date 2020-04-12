@@ -57,11 +57,12 @@ public class UserService {
 		return userMapper.selectName(name);
 	}
 
-	//---選択したNAMEのユーザー情報一覧を抽出。
+	//---選択したNAMEのユーザー情報一覧を抽出。(Nameが空白("")だった場合はnullを返す。
 	public List<User> selectDate(String name ,boolean check1,boolean check2) {
 		List<User> list = new ArrayList<>();
 		List<User> lists = new ArrayList<>();
-		if(!name.equals("")) {
+
+		if(!name.equals("")) {  //---nameが空白("")以外のみ、以下の処理を行う。
 			list = userMapper.selectNameOnly(name);  //---選択したNameのユーザー情報一覧抽出。
 			lists = timeFilter.TimeFilter(list, check1, check2);//---check1,check2のFlagに法って、有効期限までの日数が該当するものを抽出。
 		}else {
@@ -106,7 +107,11 @@ public class UserService {
 		User user = new User();
 		user.setId(Integer.parseInt(bean.getId()));
 		user.setName(bean.getName());
-		user.setNickName(bean.getNickName());
+		if(!bean.getNickName().equals("")) {
+			user.setNickName(bean.getNickName());
+		}else {
+			user.setNickName(bean.getName());
+		}
 		user.setPassword(bean.getPassword());
 		user.setActive_from(df.format(bean.getActive_from()));
 		user.setActive_to(df.format(bean.getActive_to()));

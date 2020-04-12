@@ -26,4 +26,12 @@ public class User {
 
 	private String active_to;
 
+	private String update_user;
+
+	private String update_date;
+
+	private String insert_user;
+
+	private String insert_date;
+
 }

@@ -23,7 +23,11 @@ public class UserBean {
 	public UserBean(User user){
 		this.id = Integer.toString(user.getId());
 		this.name = user.getName();
-		this.nickName = user.getNickName();
+		if(!user.getNickName().equals("")) {
+			this.nickName = user.getNickName();
+		}else {
+			this.nickName=user.getName();
+		}
 		this.active_from =Date.valueOf(user.getActive_from());
 		this.active_to = Date.valueOf(user.getActive_to());
 	}
@@ -50,5 +54,14 @@ public class UserBean {
 	private Date active_from;
 
 	private Date active_to;
+
+	private String update_user;
+
+	private Date update_date;
+
+	private String insert_user;
+
+	private Date insert_date;
+
 
 }
