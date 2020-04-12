@@ -43,6 +43,11 @@
 			<tr><td><label for="active_to">有効終了日</label></td>
 				<td><input type="date" name="active_to" th:value="*{active_to}" /></td></tr>
 
+				<td><input type="hidden" name="insert_user" th:value="*{insert_user}" /></td></tr>
+				<td><input type="hidden" name="insert_date" th:value="*{insert_date}" /></td></tr>
+				<td><input type="hidden" name="update_user" th:value="*{update_user}" /></td></tr>
+				<td><input type="hidden" name="update_date" th:value="*{update_date}" /></td></tr>
+
 
 			<tr><td><input type="submit" value="保存" /></td></tr>
 		</form>

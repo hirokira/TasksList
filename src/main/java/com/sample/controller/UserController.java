@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sample.bean.UserBean;
+import com.sample.component.SessionLoginUser;
 import com.sample.component.TimeFilterLogic;
 import com.sample.entity.User;
 import com.sample.service.UserService;
@@ -33,6 +34,9 @@ public class UserController {
 	@Autowired
 	HttpSession session;
 
+	@Autowired
+	private SessionLoginUser sessionUser;
+
 	// ユーザー一覧画面(/user/index)---GET
 	@RequestMapping(value="/user/index",method=RequestMethod.GET)
 	public ModelAndView user_index(ModelAndView mav) {
@@ -41,6 +45,7 @@ public class UserController {
 		List<User> list=userService.findAll();
 		mav.addObject("list", list);
 		mav.addObject("msg", "タスクリスト一覧");
+		mav.addObject("loginUser", sessionUser.getLoginUser());
 
 		mav.addObject("flush", session.getAttribute("flush"));
 		//セッションスコープにflushメッセージが存在していれば削除する。
@@ -64,8 +69,6 @@ public class UserController {
 		if(lists!=null) {
 			//残り日付の算出方法
 			mav.addObject("remnantTime", timeLogic.remnantTime(lists));
-
-			//mav.addObject("list", lists);
 		}
 		mav.addObject("list", lists);
 
@@ -97,6 +100,10 @@ public class UserController {
 		Date date = new Date(System.currentTimeMillis());
 		user.setActive_from(date);
 		user.setActive_to(date);
+		user.setInsert_user(sessionUser.getLoginUser().getName());
+		user.setInsert_date(date);
+		user.setUpdate_user(sessionUser.getLoginUser().getName());
+		user.setUpdate_date(date);
 		mav.setViewName("user_new");
 		mav.addObject("flag", false);
 		mav.addObject("formModel",user);
@@ -146,13 +153,18 @@ public class UserController {
 	@RequestMapping(value="/user/show/{id}",method=RequestMethod.POST)
 	public ModelAndView user_edit(@RequestParam("id")int id,ModelAndView mav) {
 
-		boolean editFlag=true;
+		boolean editFlag=true; //--編集モードをONにする。
+		mav.addObject("flag", false);  //---編集ボタンをOFFにする。
+
 		mav.setViewName("user_show");
-		mav.addObject("editFlag", editFlag); //editFlagに
-		UserBean user = userService.selectBean(id);
+		mav.addObject("editFlag", editFlag); //編集モードをセット
+
+		UserBean user = userService.selectBean(id);  //---編集するユーザー(UserTable)から情報をDBから取得し、UserBeanにラップする。
+		//Date date = new Date(System.currentTimeMillis()); //---現在時刻を取得。
+		user.setUpdate_user(sessionUser.getLoginUser().getName()); //---ログインしているユーザーを、Update_userにセットする。
+		user.setUpdate_date(new Date(System.currentTimeMillis()));  //---現在時刻をupdate_dateにセットする。
 		mav.addObject("formModel", user);
 
-		mav.addObject("flag", false);
 		return mav;
 
 	}
