@@ -10,7 +10,7 @@ public class Task {
 
 	private int id;
 
-	private int user;
+	private String user;
 
 	private String title;
 
@@ -22,11 +22,11 @@ public class Task {
 
 	private String completion_date;
 
-	private int update_user;
+	private String update_user;
 
 	private String update_date;
 
-	private int insert_user;
+	private String insert_user;
 
 	private String insert_date;
 

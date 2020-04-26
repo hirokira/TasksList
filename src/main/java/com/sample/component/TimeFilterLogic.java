@@ -36,13 +36,14 @@ public class TimeFilterLogic {
 			for(int i = 0; i<list.size();i++) {
 				lists.add(list.get(i));
 			}
-			//---check1のみtrueの場合、listのオブジェクトの残日数が30日未満のものをlistsに格納する。
-			//---check1のみtrueでlistのオブジェクトの残日数が30日未満のものがない場合listsにnullを格納する。
-		}else if(check1) {  //---check1のみtrueの場合、listのオブジェクトの残日数が30日未満のものをlistsに格納する。
+			//---check1のみtrueの場合、listのオブジェクトの残日数が"0日以上30日未満"のものをlistsに格納する。
+			//---check1のみtrueでlistのオブジェクトの残日数が"0日以上30日未満"のものがない場合listsにnullを格納する。
+		}else if(check1) {  //---check1のみtrueの場合、listのオブジェクトの残日数が"0日以上30日未満"のものをlistsに格納する。
 			for(int i = 0; i<list.size();i++) {
-				if(((Date.valueOf(list.get(i).getActive_to()).getTime()) - sqlDate.getTime()) < (86400000L * 31L) ) {
+				if(0<=((Date.valueOf(list.get(i).getActive_to()).getTime()) - sqlDate.getTime()) &&
+						((Date.valueOf(list.get(i).getActive_to()).getTime()) - sqlDate.getTime()) < (86400000L * 31L) ) {
 					lists.add(list.get(i));
-				}else {//---check1のみtrueでlistのオブジェクトの残日数が30日未満のものがない場合listsにnullを格納する。
+				}else {//---check1のみtrueでlistのオブジェクトの残日数が"0日以上30日未満"のものがない場合listsにnullを格納する。
 					lists=null;
 				}
 			}
@@ -63,7 +64,6 @@ public class TimeFilterLogic {
 	}
 
 
-
 	//---ユーザー毎の有効期限までの残日時分を算出するメソッド
 	public String remnantTime(List<User> lists) {
 
@@ -75,6 +75,25 @@ public class TimeFilterLogic {
 		Long min = ((Date.valueOf(lists.get(0).getActive_to()).getTime()) - sqlDate.getTime()) % 86400000 % 3600000/60000;
 
 		return "残有効期限："+day+"日"+hour+"時"+min+"分";
+
+	}
+
+	//---ユーザー毎の有効期限までの残日時分を算出するメソッド
+	public String remnantTimeUser(User user) {
+
+		Date sqlDate = new Date(System.currentTimeMillis());
+
+		//残り日付の算出方法
+		Long day = ((Date.valueOf(user.getActive_to()).getTime()) - sqlDate.getTime()) / 86400000 ;
+		Long hour = ((Date.valueOf(user.getActive_to()).getTime()) - sqlDate.getTime()) % 86400000 / 3600000;
+		Long min = ((Date.valueOf(user.getActive_to()).getTime()) - sqlDate.getTime()) % 86400000 % 3600000/60000;
+
+		if(day<=0 && hour<0 && min<0) {
+			return "期限切れ";
+		}else {
+
+			return "残有効期限："+day+"日"+hour+"時"+min+"分";
+		}
 
 	}
 

@@ -34,7 +34,7 @@ public class TaskBean {
 
 	private int id;
 
-	private int user;
+	private String user;
 
 	private String title;
 
@@ -46,11 +46,11 @@ public class TaskBean {
 
 	private Date completion_date;
 
-	private int update_user;
+	private String update_user;
 
 	private Date update_date;
 
-	private int insert_user;
+	private String insert_user;
 
 	private Date insert_date;
 

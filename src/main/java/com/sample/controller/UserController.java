@@ -42,8 +42,11 @@ public class UserController {
 	public ModelAndView user_index(ModelAndView mav) {
 
 		mav.setViewName("user_index");
-		List<User> list=userService.findAll();
-		mav.addObject("list", list);
+		//List<User> list=userService.findAll();
+		//mav.addObject("list", list);
+		List<UserBean> listBean =userService.findAllBean();
+
+		mav.addObject("listBean", listBean);
 		mav.addObject("msg", "タスクリスト一覧");
 		mav.addObject("loginUser", sessionUser.getLoginUser());
 
@@ -63,34 +66,37 @@ public class UserController {
 		mav.setViewName("user_index");
 		mav.addObject("check1", check1);
 		mav.addObject("check2", check2);
+		//List<User> lists = userService.selectDate(name,check1,check2);//---
+		List<UserBean> listBean = userService.selectDateBean(name,check1,check2);//---
 
-		List<User> lists = userService.selectDate(name,check1,check2);//---
-
-		if(lists!=null) {
-			//残り日付の算出方法
-			mav.addObject("remnantTime", timeLogic.remnantTime(lists));
-		}
-		mav.addObject("list", lists);
+		mav.addObject("listBean", listBean);
 
 		return mav;
 	}
 
 	//ユーザー強制作成(/user/new2)
-/*	@RequestMapping(value="/user/new2",method=RequestMethod.GET)
+	@RequestMapping(value="/user/new2",method=RequestMethod.GET)
 	public ModelAndView user_new2(ModelAndView mav) {
 
+		UserBean userBean = new UserBean();
+		Date date = new Date(System.currentTimeMillis());
 		User user = new User();
-		user.setId(4);
-		user.setName("asrun");
-		user.setNickName("asss");
-		user.setPassword("1234");
-		user.setActive_from("2020-03-31");
-		user.setActive_to("2021-12-31");
+		userBean.setId("1");
+		userBean.setName("admin");
+		userBean.setNickName("管理者");
+		userBean.setPassword("admin");
+		userBean.setActive_from(date);
+		userBean.setActive_to(date);
+		userBean.setUpdate_user("admin");
+		userBean.setUpdate_date(date);
+		userBean.setInsert_user("admin");
+		userBean.setInsert_date(date);
+		user = userService.changeUser(userBean);
 		userService.insert(user);
 		mav = new ModelAndView("redirect:/user/index");
 		return mav;
 	}
-*/
+
 
 	//ユーザー新規作成(/user/new)
 	@RequestMapping(value="/user/new",method=RequestMethod.GET)

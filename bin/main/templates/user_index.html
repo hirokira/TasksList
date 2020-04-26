@@ -18,14 +18,13 @@
 
 	<h1>ユーザー情報一覧</h1>
 	<p th:text="${flush}"></p>
-	<p th:text="${remnantTime}"></p>
 
 	<form action="/user/index" method="post" >
 
 		<tr><td><label for="name">ユーザー</label></td>
 	  	<select id="name" name="name">
 	  		<option value="">---</option>
-	  		<option th:each="user : ${list}" th:value="${user.name}" th:text="${user.name}"></option>
+	  		<option th:each="user : ${listBean}" th:value="${user.name}" th:text="${user.name}"></option>
   		</select>
   		</td></tr><br />
 
@@ -41,13 +40,15 @@
 	<br />
 
 	<table>
-		<tr><th>ID</th><th>名前</th><th>表示名</th><th>有効開始日</th><th>有効終了日</th></tr>
-		<tr th:each="obj : ${list}" th:object="${obj}">
+		<tr><th>ID</th><th>名前</th><th>表示名</th><th>有効開始日</th><th>有効終了日</th><th>残有効期限</th><th>登録ユーザー</th></tr>
+		<tr th:each="obj : ${listBean}" th:object="${obj}">
 			<td><a th:href="@{/user/show/{id}(id=*{id})}"><div th:text=*{id}></div></a></td>
 			<td th:text="*{name}"></td>
 			<td th:text="*{nickName}"></td>
 			<td th:text="*{active_from}"></td>
 			<td th:text="*{active_to}"></td>
+			<td th:text="*{remnant_date}"></td>
+			<td th:text="*{insert_user}"></td></tr>
 
 	</table>
 

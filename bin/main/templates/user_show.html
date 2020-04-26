@@ -32,6 +32,9 @@
 			<tr><td><p th:text="|表示名：*{nickName}|"></p></td></tr>
 			<tr><td><p th:text="|有効開始日：*{active_from}|"></p></td></tr>
 			<tr><td><p th:text="|有効終了日：*{active_to}|"></p></td></tr>
+			<tr><td><p th:text="|登録ユーザー：*{insert_user}|"></p></td></tr>
+			<tr><td><p th:text="|登録日時：*{insert_date}|"></p></td></tr>
+			<tr><td><p th:text="|更新ユーザー：*{update_user}|"></p></td></tr>
 		</table>
 	</div>
 </div>
@@ -41,8 +44,10 @@
 		<ul>
 			<li th:each="error : ${#fields.detailedErrors()}" class = "err" th:text="${error.message}" />
 		</ul>
+
+		<input type="hidden" name="id" th:value="*{id}" />
 			<tr><td><label for="id">ID</label></td>
-				<td><input type="text" name="id" th:value="*{id}" /></td></tr>
+			    <td><p th:text="*{id}"></p></td></tr>
 
 			<tr><td><label for="name">ユーザ</label></td>
 				<td><input type="text" name="name" th:value="*{name}" /></td></tr>
@@ -58,6 +63,12 @@
 
 			<tr><td><label for="active_to">有効終了日</label></td>
 				<td><input type="date" name="active_to" th:value="*{active_to}" /></td></tr>
+
+
+				<input type="hidden" name="insert_user" th:value="*{insert_user}" />
+				<input type="hidden" name="insert_date" th:value="*{insert_date}" />
+				<input type="hidden" name="update_user" th:value="*{update_user}" />
+				<input type="hidden" name="update_date" th:value="*{update_date}" />
 
 			<tr><td><input type="submit" value="保存" /></td></tr>
 	</form>

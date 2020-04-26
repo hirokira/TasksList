@@ -11,13 +11,14 @@
     	select * from user where id = #{id}
     </select>
 
+
     <select id = "insert">
-    	insert into user values (#{id},#{name},#{password},#{nickName},#{active_from},#{active_to})
+    	insert into user values (#{id},#{name},#{password},#{nickName},#{active_from},#{active_to},#{update_user},#{update_date},#{insert_user},#{insert_date})
     </select>
 
     <update id = "update">
     	update user set name = #{name} ,password = #{password} ,nickName = #{nickName},
-    					active_from = #{active_from} ,active_to = #{active_to} where id = #{id}
+    					active_from = #{active_from} ,active_to = #{active_to},update_user = #{update_user},update_date = #{update_date} where id = #{id}
     </update>
 
     <select id = "delete">

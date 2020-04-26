@@ -76,6 +76,30 @@ public class TasksController {
 		return mav;
 	}
 
+	// Task新規作成(強制)
+	@RequestMapping(value="/tasks/new2",method=RequestMethod.GET)
+	public ModelAndView tasks_new2(ModelAndView mav) {
+		TaskBean bean = new TaskBean();
+		bean.setId(1);
+		bean.setTitle("タイトル");
+		bean.setDetail("内容");
+		bean.setImportance(1);
+		bean.setCompletion_date(new Date(System.currentTimeMillis()));
+		bean.setUser(sessionUser.getLoginUser().getName());
+		bean.setInsert_user(sessionUser.getLoginUser().getName());
+		bean.setInsert_date(new Date(System.currentTimeMillis()));
+		bean.setUpdate_user(sessionUser.getLoginUser().getName());
+		bean.setUpdate_date(new Date(System.currentTimeMillis()));
+		//mav.addObject("loginUser", sessionUser.getLoginUser());
+		bean.setDue_date(new Date(System.currentTimeMillis()));
+
+		//---ToDo---2020/04/25 追加　beanをEntityに変換してInsertに凸る。
+		//tasksService.insert(bean);
+		//mav.addObject("formModel", bean);
+		ModelAndView res = new ModelAndView("redirect:/tasks/index");
+		return res;
+	}
+
 	// Task新規作成Create
 	@RequestMapping(value="/tasks/create",method=RequestMethod.POST)
 	public ModelAndView tasks_create(@ModelAttribute("formModel") @Validated TaskBean task,
@@ -83,7 +107,7 @@ public class TasksController {
 
 		ModelAndView res = null;
 		mav.setViewName("task_new");
-		tasksService.insert(task);
+		//tasksService.insert(task);
 
 		res = new ModelAndView("redirect:/tasks");
 

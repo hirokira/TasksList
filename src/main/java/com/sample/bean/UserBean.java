@@ -30,6 +30,11 @@ public class UserBean {
 		}
 		this.active_from =Date.valueOf(user.getActive_from());
 		this.active_to = Date.valueOf(user.getActive_to());
+		this.update_user=user.getUpdate_user();
+		//----ToDo----うまく動作しない。
+		this.update_date=Date.valueOf(user.getUpdate_date());
+		this.insert_user=user.getInsert_user();
+		this.insert_date=Date.valueOf(user.getInsert_date());
 	}
 
 
@@ -62,6 +67,8 @@ public class UserBean {
 	private String insert_user;
 
 	private Date insert_date;
+
+	private String remnant_date;
 
 
 }
