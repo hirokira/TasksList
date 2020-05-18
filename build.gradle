@@ -23,17 +23,21 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.2'
+	implementation 'org.springframework.session:spring-session-core'
 	compile 'org.springframework:org.springframework.jdbc:3.2.2.RELEASE'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	compile 'org.xerial:sqlite-jdbc:3.25.2'
+	compile "org.thymeleaf.extras:thymeleaf-extras-springsecurity5"
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 test {

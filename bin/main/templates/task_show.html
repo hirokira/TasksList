@@ -18,18 +18,66 @@
 	<h1 th:text="#{content.title}"></h1>
 	<p th:text="${msg}"></p>
 
-<div th:object="${formModel}">
-	<table>
-		<tr><td><p th:text="|名前: *{user}|"></p></td></tr>
-		<tr><td><p th:text="|タイトル：*{title}|"></p></td></tr>
-		<tr><td><p th:text="|内容：*{detail}|"></p></td></tr>
-		<tr><td><p th:text="|期限日：*{due_date}|"></p></td></tr>
-		<tr><td><p th:text="|重要度：*{importance}|"></p></td></tr>
-		<tr><td><p th:text="|完了日時：*{completion_date}|"></p></td></tr>
-
-	</table>
+<form th:if="${editFlag}" th:action="@{/tasks/show/{id}}" method="post" th:object="${formModel}">
+	<input type = "hidden" name="id" th:value="*{id}" />
+	<input type="submit" value="編集" />
+</form>
 
 
+<div th:unless="${editMode}">
+	<div th:object="${formModel}">
+		<table>
+			<tr><td><p th:text="|名前: *{user}|"></p></td></tr>
+			<tr><td><p th:text="|タイトル：*{title}|"></p></td></tr>
+			<tr><td><p th:text="|内容：*{detail}|"></p></td></tr>
+			<tr><td><p th:text="|期限日：*{due_date}|"></p></td></tr>
+			<tr><td><p th:text="|重要度：*{importance}|"></p></td></tr>
+			<tr><td><p th:text="|完了日時：*{completion_date}|"></p></td></tr>
+
+		</table>
+		<p><a th:href="@{/tasks}">タスク一覧へ戻る</a></p>
+	</div>
 </div>
+
+<table th:if="${editMode}">
+	<form th:action="@{/tasks/update}" method="post" th:object="${formModel}">
+			<ul>
+				<li th:each="error : ${#fields.detailedErrors()}" class = "err" th:text="${error.message}" />
+			</ul>
+			<input type="hidden" name="id" th:value="*{id}" />
+			<tr><td><label for="id">ID</label></td>
+			    <td><p th:text="*{id}"></p></td></tr>
+
+			<tr><td><label for="user">ユーザ</label></td>
+			  	<td><select id="name" name="user">
+			  		<option value="">---</option>
+			  		<option th:each="user : ${listBean}" th:value="${user.name}" th:text="${user.name}"></option>
+		  		</select></td></tr>
+			<tr><td><label for="user">タイトル</label></td>
+				<td><input type="text" name="title" th:value="*{title}" /></td></tr>
+			<tr><td><label for="user">内容</label></td>
+				<td><input type="text" name="detail" th:value="*{detail}" /></td></tr>
+
+			<tr><td><label for="due_date">期限日</label></td>
+				<!-- <td><input type="date" name="due_date" th:value="${#dates.format(formModel.due_date, 'yyyy/MM/dd HH:mm')}" /></td></tr> -->
+				<td><input type="date" name="due_date" th:value="*{due_date}" /></td></tr>
+
+			<tr><td><label for="user">重要度</label></td>
+				<td><input type="text" name="importance" th:value="*{importance}" /></td></tr>
+
+			<tr><td><label for="user">完了日時</label></td>
+				<td><input type="date" name="completion_date" th:value="*{completion_date}" /></td></tr>
+
+			<!--<input type="hidden" name="completion_date" th:value="*{completion_date}" />-->
+			<input type="hidden" name="insert_user" th:value="*{insert_user}" />
+			<input type="hidden" name="insert_date" th:value="*{insert_date}" />
+
+			<input type="hidden" name="update_user" th:value="*{update_user}" />
+			<input type="hidden" name="update_date" th:value="*{update_date}" />
+
+
+			<tr><td><input type="submit" value="保存" /></td></tr>
+		</form>
+</table>
 </body>
 </html>

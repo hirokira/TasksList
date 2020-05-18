@@ -18,6 +18,8 @@ public interface UserMapper {
 
 	List<User> selectNameOnly(@Param("name")String name);
 
+	User findSelectUser(String user);
+
 	void insert(User user);
 
 	//void insert(@Param("id")Integer id,@Param("name")String name,@Param("password")String password,@Param("nickName")String nickName,

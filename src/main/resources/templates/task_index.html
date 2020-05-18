@@ -15,23 +15,40 @@
 	</style>
 </head>
 <body>
-
 	<p th:text="${flush}"></p>
-	<p th:text="${loginUser.name}"></p>
-	<p th:text="|ログインユーザー：${loginUser.nickName}さん|"></p>
+	<tr><td th:text="|　　ログインユーザー：${loginUser.nickName}さん|"></td></tr>
+
+	<form th:action="@{/tasks}" method="post" >
+		<tr><td><label for="name">ユーザー</label></td>
+	  	<select id="name" name="name">
+	  		<option value="">---</option>
+	  		<option th:each="user : ${userList}" th:value="${user.name}" th:text="${user.name}"></option>
+  		</select></tr><br />
+		<div>
+			<input type="checkbox" name="check1"  />
+			<label for="check1">通常</label>
+			<input type="checkbox" name="check2"  />
+			<label for="check2">7日以内</label>
+			<input type="checkbox" name="check3"  />
+			<label for="check3">24時間以内</label>
+			<input type="checkbox" name="check4"  />
+			<label for="check4">完了</label>
+		</div>
+		<tr><td><input type="submit" value="更新" /></td></tr>
+	</form><br />
 
 	<table>
-		<tr><th>タイトル</th><th>内容</th><th>重要度</th><th>期限</th></tr>
+		<tr><th>完了チェック</th><th>タイトル</th><th>重要度</th><th>期限</th></tr>
 		<tr th:each="obj : ${list}" th:object="${obj}">
+			<td th:text="ボックス"></td>
 			<td><a th:href="@{/tasks/show/{id}(id=*{id})}"><div th:text=*{title}></div></a></td>
-			<td th:text="*{detail}"></td>
 			<td th:text="*{importance}"></td>
-			<td th:text="*{due_date}"></td></tr>
+			<td th:text="*{remnant_date}"></td></tr>
 
 	</table>
 
 	<p><a th:href="@{/tasks/new}">新規Task作成</a></p>
-	<p><a th:href="@{/user/index}">ユーザー一覧</a></p>
+	<p><a th:href="@{/user/index}">ユーザー一覧画面</a></p>
 
 </body>
 </html>

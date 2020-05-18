@@ -12,6 +12,10 @@
     </select>
 
 
+    <select id = "findSelectUser" resultType="com.sample.entity.User">
+    	select * from user where name = #{name}
+    </select>
+
     <select id = "insert">
     	insert into user values (#{id},#{name},#{password},#{nickName},#{active_from},#{active_to},#{update_user},#{update_date},#{insert_user},#{insert_date})
     </select>
@@ -27,6 +31,10 @@
 
     <select id = "selectName" resultType="com.sample.entity.User">
     	select * from user where name = #{name}
+    </select>
+
+    <select id = "findUser" resultType="com.sample.entity.LoginUser">
+    	select * from user where username = #{userName}
     </select>
 
     <select id = "selectNameOnly" resultType="com.sample.entity.User">

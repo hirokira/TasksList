@@ -20,28 +20,34 @@
 
 
 	<table>
-		<form action="/tasks/create" method="post" th:object="${formModel}">
+		<form th:action="@{/tasks/create}" method="post" th:object="${formModel}">
 			<ul>
 				<li th:each="error : ${#fields.detailedErrors()}" class = "err" th:text="${error.message}" />
 			</ul>
-			<input type="hidden" name="id" th:value="*{id}" />
+			<tr><td><label for="user">ID</label></td>
+				<td><input type="text" name="id" th:value="*{id}" /></td></tr>
 
 			<tr><td><label for="user">ユーザ</label></td>
-				<td><input type="text" name="user" th:value="*{user}" /></td></tr>
+			  	<td><select id="name" name="user">
+			  		<option value="">---</option>
+			  		<option th:each="user : ${listBean}" th:value="${user.name}" th:text="${user.name}"></option>
+		  		</select></td></tr>
 			<tr><td><label for="user">タイトル</label></td>
 				<td><input type="text" name="title" th:value="*{title}" /></td></tr>
 			<tr><td><label for="user">内容</label></td>
 				<td><input type="text" name="detail" th:value="*{detail}" /></td></tr>
 
 			<tr><td><label for="due_date">期限日</label></td>
-				<td><input type="date" name="due_date" th:value="${#dates.format(formModel.due_date, 'yyyy/MM/dd HH:mm')}" /></td></tr>
+				<!-- <td><input type="date" name="due_date" th:value="${#dates.format(formModel.due_date, 'yyyy/MM/dd HH:mm')}" /></td></tr> -->
+				<td><input type="date" name="due_date" th:value="*{due_date}" /></td></tr>
 
 			<tr><td><label for="user">重要度</label></td>
 				<td><input type="text" name="importance" th:value="*{importance}" /></td></tr>
 
 			<tr><td><label for="user">完了日時</label></td>
-				<td><input type="date" name="completion_date" th:value="${#dates.format(formModel.completion_date, 'yyyy/MM/dd')}" /></td></tr>
+				<td><input type="date" name="completion_date" th:value="*{completion_date}" /></td></tr>
 
+			<!--<input type="hidden" name="completion_date" th:value="*{completion_date}" />-->
 			<input type="hidden" name="insert_user" th:value="*{insert_user}" />
 			<input type="hidden" name="insert_date" th:value="*{insert_date}" />
 
