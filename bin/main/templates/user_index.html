@@ -4,22 +4,17 @@
 	<title>タスク管理システム</title>
 	<meta http-equiv="Content-Type"
 		content="text/html; charset=UTF-8" />
+	<link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
 
-	<style>
-	h1 { font-size:18pt; font-weight:bold; color:gray; }
-	body { font-size:13pt; color:gray; margin:5px 25px; }
-	tr { margin:5px; }
-	th { padding:5px; color:white; background:darkgray; }
-	td { padding:5px; color:black; background:#f0f0f0; }
-	.err { color:red; }
-	</style>
 </head>
 <body>
 
-	<h1>ユーザー情報一覧</h1>
+	<h1 ><a th:text="#{content.title}" th:href="@{'/tasks'}"></a></h1>
+	<h2><a th:href="@{'/user/index'}">ユーザー情報一覧へ</a></h2>
+
 	<p th:text="${flush}"></p>
 
-	<form action="/user/index" method="post" >
+	<form th:action="@{/user/index}" method="post" >
 
 		<tr><td><label for="name">ユーザー</label></td>
 	  	<select id="name" name="name">
@@ -49,10 +44,7 @@
 			<td th:text="*{active_to}"></td>
 			<td th:text="*{remnant_date}"></td>
 			<td th:text="*{insert_user}"></td></tr>
-
 	</table>
-
-
 
 	<div>
 		<p><a th:href="@{'/user/new'}">新規ユーザー登録</a></p>

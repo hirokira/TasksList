@@ -108,7 +108,7 @@ public class TimeFilterLogic {
 		Long day = remnantMs(user) / 86400000 ;
 		Long hour = remnantMs(user) % 86400000 / 3600000;
 		Long min = remnantMs(user) % 86400000 % 3600000/60000;
-		if(day<=0 && hour<0 && min<0) {
+		if(day<=0 && hour<=0 && min<0) {
 			return "期限切れ";
 		}else {
 			return "残有効期限："+day+"日"+hour+"時"+min+"分";
@@ -121,7 +121,7 @@ public class TimeFilterLogic {
 		Long day = remnantMs(task) / 86400000 ;
 		Long hour = remnantMs(task) % 86400000 / 3600000;
 		Long min = remnantMs(task) % 86400000 % 3600000/60000;
-		if(day<=0 && hour<0 && min<0) {
+		if(day<=0 && hour<=0 && min<0) {
 			return "期限切れ";
 		}else {
 			return "残有効期限："+day+"日"+hour+"時"+min+"分";

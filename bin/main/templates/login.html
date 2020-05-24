@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+	<title>タスク管理システム</title>
+	<meta http-equiv="Content-Type"
+		content="text/html; charset=UTF-8" />
+	<link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
 </head>
 <body>
     <!--/* ログイン失敗/ログアウトはgetパラメータにステータスが渡されているので、Thymeleafではparamから取得 */-->
@@ -10,15 +14,17 @@
     <div th:if="${param.error}">
             Invalid username and password.
     </div>
-    
+
     <!--/* 「/sign_in」がログイン判定処理を呼び出すViewNameとなっている */-->
 	<form th:action="@{/sign_in}" method="post">
-	    <input type="text" name="username">user_name
+	    <div>ユーザー名</div>
+	    <input type="text" name="username">
 	    <br/>
-	    <input type="password" name="password">password
-	    
+	    <div>パスワード</div>
+	    <input type="password" name="password">
+
 	    <br/>
-	    
+
 	    <input type="submit" value="Login">
 	</form>
 </body>

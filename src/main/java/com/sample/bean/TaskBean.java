@@ -57,6 +57,7 @@ public class TaskBean {
 	@NotNull(message="期限を決定してください")
 	private Date due_date;
 
+
 	private short importance;
 
 	private Date completion_date;

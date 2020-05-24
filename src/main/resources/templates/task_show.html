@@ -4,14 +4,7 @@
 	<title>タスク管理システム</title>
 	<meta http-equiv="Content-Type"
 		content="text/html; charset=UTF-8" />
-	<style>
-	h1 { font-size:18pt; font-weight:bold; color:gray; }
-	body { font-size:13pt; color:gray; margin:5px 25px; }
-	tr { margin:5px; }
-	th { padding:5px; color:white; background:darkgray; }
-	td { padding:5px; color:black; background:#f0f0f0; }
-	.err { color:red; }
-	</style>
+	<link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
 </head>
 <body>
 
@@ -31,8 +24,15 @@
 			<tr><td><p th:text="|タイトル：*{title}|"></p></td></tr>
 			<tr><td><p th:text="|内容：*{detail}|"></p></td></tr>
 			<tr><td><p th:text="|期限日：*{due_date}|"></p></td></tr>
-			<tr><td><p th:text="|重要度：*{importance}|"></p></td></tr>
-			<tr><td><p th:text="|完了日時：*{completion_date}|"></p></td></tr>
+
+			<tr th:if="*{importance}==0"><td><p th:text="|重要度:★|"></p></td></tr>
+			<tr th:if="*{importance}==1"><td><p th:text="|重要度:★★|"></p></td></tr>
+			<tr th:if="*{importance}==2"><td><p th:text="|重要度:★★★|"></p></td></tr>
+			<tr th:if="*{importance}==3"><td><p th:text="|重要度:★★★★|"></p></td></tr>
+			<!-- <tr><td><p th:text="|重要度：*{importance}|"></p></td></tr> -->
+			<tr th:if="*{completion_date}!=null"><td><p th:text="|完了日時：*{completion_date}|"></p></td></tr>
+			<tr th:unless="*{completion_date}!=null"><td><p>完了日時：未完了</p></td></tr>
+			<!-- <tr><td><p th:text="|完了日時：*{completion_date}|"></p></td></tr> -->
 
 		</table>
 		<p><a th:href="@{/tasks}">タスク一覧へ戻る</a></p>

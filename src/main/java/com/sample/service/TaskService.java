@@ -107,7 +107,11 @@ public class TaskService {
 		task.setDetail(bean.getDetail());
 		task.setDue_date(df.format(bean.getDue_date()));
 		task.setImportance(bean.getImportance());
-		task.setCompletion_date(df.format(bean.getCompletion_date()));
+		if(bean.getCompletion_date()!=null) {
+			task.setCompletion_date(df.format(bean.getCompletion_date()));
+		}else {
+			task.setCompletion_date("");
+		}
 		task.setUpdate_user(bean.getUpdate_user());
 		task.setUpdate_date(df.format(bean.getUpdate_date()));
 		task.setInsert_user(bean.getInsert_user());

@@ -23,9 +23,9 @@ public class UserService {
 	private TimeFilterLogic timeFilter;
 
 	//---全てのユーザーを表示
-	/*public List<User> findAll(){
+	public List<User> findAll(){
 		return userMapper.findAll();
-	}*/
+	}
 
 	//---全てのユーザーを表示(Bean化)
 	public List<UserBean> findAllBean(){
