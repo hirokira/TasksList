@@ -35,12 +35,18 @@
 				<td><input type="date" name="due_date" th:value="*{due_date}" /></td></tr>
 
 			<tr><td><label for="user">重要度</label></td>
-				<td><input type="text" name="importance" th:value="*{importance}" /></td></tr>
+				<td><select id="importance" name="importance" th:field="*{importance}">
+    				<option th:value="0">★</option>
+    				<option th:value="1">★★</option>
+    				<option th:value="2">★★★</option>
+    				<option th:value="3">★★★★</option>
+					</select>
+				<!-- <td><input type="text" name="importance" th:value="*{importance}" /></td></tr>-->
 
-			<tr><td><label for="user">完了日時</label></td>
+			<!-- <tr><td><label for="user">完了日時</label></td>
 				<td><input type="date" name="completion_date" th:value="*{completion_date}" /></td></tr>
-
-			<!--<input type="hidden" name="completion_date" th:value="*{completion_date}" />-->
+			 -->
+			<input type="hidden" name="completion_date" th:value="*{completion_date}" />
 			<input type="hidden" name="insert_user" th:value="*{insert_user}" />
 			<input type="hidden" name="insert_date" th:value="*{insert_date}" />
 

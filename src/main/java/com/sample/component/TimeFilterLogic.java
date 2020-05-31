@@ -19,6 +19,7 @@ public class TimeFilterLogic {
 		return ms;
 	}
 
+
 	//---残り日数をms(Long型)で返すメソッド(Task)
 	public Long remnantMs(Task task) {
 		Date sqlDate = new Date(System.currentTimeMillis());

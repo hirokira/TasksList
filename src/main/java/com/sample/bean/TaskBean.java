@@ -48,16 +48,18 @@ public class TaskBean {
 	@NotEmpty(message="ユーザーを選択してください。")
 	private String user;
 
+	@NotEmpty(message="タイトルを入力してください")
 	@Length(max=150)
 	private String title;
 
+	@NotEmpty(message="内容を入力してください")
 	@Length(max=10000)
 	private String detail;
 
 	@NotNull(message="期限を決定してください")
 	private Date due_date;
 
-
+	@NotNull(message="重要度を選択してください")
 	private short importance;
 
 	private Date completion_date;

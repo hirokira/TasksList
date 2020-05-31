@@ -93,7 +93,13 @@ public class TaskService {
 			if(lists!=null) {
 				for(int i = 0;i<lists.size(); i++) {
 					listBean.add(new TaskBean(lists.get(i)));
-					listBean.get(i).setRemnant_date(timeFilter.remnantTimeTask(lists.get(i)));
+					/*---Add 2020/05/31 completion_dateがnull以外の際はRemnant_dateを"完了済"
+                    nullの際はRemant_dateに残日数算出の処理(timeFilter.remnantTimeTaskメソッドを通す。*/
+					if((!list.get(i).getCompletion_date().equals(""))) {
+						listBean.get(i).setRemnant_date("完了済");
+					}else {
+						listBean.get(i).setRemnant_date(timeFilter.remnantTimeTask(list.get(i)));
+					}
 				}
 			}
 		}else {

@@ -166,7 +166,6 @@ public class TasksController {
 	// Task詳細画面
 	@RequestMapping(value="/tasks/show/{id}",method=RequestMethod.GET)
 	public ModelAndView tasks_show(@PathVariable int id,ModelAndView mav) {
-		//mav.addObject("loginUser", session.getAttribute("loginUser"));
 		mav.addObject("loginUser", sessionUser.getLoginUser());
 		mav.setViewName("task_show");
 		//---特定のIDのTask情報を取得
