@@ -86,7 +86,7 @@ public class TasksController {
 		List<UserBean> userList =userService.findAllBean();
 		mav.addObject("userList", userList);
 
-		//--ToDo:フィルター検索処理を作成。
+		//--名前とチェックボックスを条件にマッチするタスクリストを作成。
 		List<TaskBean> listBean = tasksService.selectDateBean(name, check1, check2,check3,check4);
 		mav.addObject("list", listBean);
 
@@ -177,7 +177,7 @@ public class TasksController {
 	}
 
 	//--Task編集画面(編集可能)
-	@RequestMapping(value="/tasks/show/{id}",method=RequestMethod.POST)
+	@RequestMapping(value="/tasks/show/{id}", params = "edit",method=RequestMethod.POST)
 	public ModelAndView tasks_edit(@RequestParam("id") int id,ModelAndView mav) {
 
 		boolean editMode=true;//---編集モードをONにする。
@@ -201,7 +201,7 @@ public class TasksController {
 	}
 
 	//---Task更新処理Update
-	@RequestMapping(value="/tasks/update",method=RequestMethod.POST)
+	@RequestMapping(value="/tasks/update",params="update",method=RequestMethod.POST)
 	public ModelAndView tasks_update(@ModelAttribute("formModel") @Validated TaskBean taskBean,
 										BindingResult result,ModelAndView mav) {
 		ModelAndView res = null;
@@ -222,5 +222,17 @@ public class TasksController {
 		return res;
 	}
 
+
+	//---Task完了処理Update_complete
+	@RequestMapping(value="/tasks/update",params="complete",method=RequestMethod.POST)
+	public ModelAndView tasks_update_complete(@RequestParam("id")int id,ModelAndView mav) {
+		ModelAndView res = null;
+		TaskBean bean = tasksService.selectBean(id);//---完了するIDのtask情報をTaskBean化して取得。
+		bean.setCompletion_date(new Date(System.currentTimeMillis()));//---完了日時情報に現在日時をセットする。
+		tasksService.update(tasksService.changeTask(bean));
+		session.setAttribute("flush", "タスクが完了しました。");
+		res = new ModelAndView("redirect:/tasks");
+		return res;
+	}
 
 }

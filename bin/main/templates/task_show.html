@@ -13,7 +13,7 @@
 
 <form th:if="${editFlag}" th:action="@{/tasks/show/{id}}" method="post" th:object="${formModel}">
 	<input type = "hidden" name="id" th:value="*{id}" />
-	<input type="submit" value="編集" />
+	<input type="submit" value="編集" name="edit"/>
 </form>
 
 
@@ -31,10 +31,17 @@
 			<tr th:if="*{importance}==3"><td><p th:text="|重要度:★★★★|"></p></td></tr>
 			<!-- <tr><td><p th:text="|重要度：*{importance}|"></p></td></tr> -->
 			<tr th:if="*{completion_date}!=null"><td><p th:text="|完了日時：*{completion_date}|"></p></td></tr>
-			<tr th:unless="*{completion_date}!=null"><td><p>完了日時：未完了</p></td></tr>
+			<tr th:unless="*{completion_date}!=null"><td><p th:text="|完了日時：未完了|"></p></td></tr>
 			<!-- <tr><td><p th:text="|完了日時：*{completion_date}|"></p></td></tr> -->
 
 		</table>
+
+		<!-- Add 2020/5/31 完了日時(completion_date)がnullの時に完了ボタンを表示する処理追加。 -->
+		<form th:unless="*{completion_date}!=null" th:action="@{/tasks/update}" method="post" >
+			<input type="hidden" name="id" th:value="*{id}" />
+			<input type="submit" name="complete" value="完了" />
+		</form>
+
 		<p><a th:href="@{/tasks}">タスク一覧へ戻る</a></p>
 	</div>
 </div>
@@ -76,7 +83,7 @@
 			<input type="hidden" name="update_date" th:value="*{update_date}" />
 
 
-			<tr><td><input type="submit" value="保存" /></td></tr>
+			<tr><td><input type="submit" name="update" value="保存" /></td></tr>
 		</form>
 </table>
 </body>

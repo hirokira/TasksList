@@ -32,7 +32,12 @@
 	<table>
 		<tr><th>完了チェック</th><th>タイトル</th><th>重要度</th><th>期限</th></tr>
 		<tr th:each="obj : ${list}" th:object="${obj}">
-			<td th:text="ボックス"></td>
+
+			<td th:if="*{completion_date}!=null"><img src="/images/Complate.jpg" class="pic" alt=""></img></td>
+			<!-- <td th:if="*{completion_date}!=null" th:text="完了"></td> -->
+			<td th:unless="*{completion_date}!=null"><img src="/images/未完了.jpg" class="pic" alt=""></img></td>
+			<!-- <td th:unless="*{completion_date}!=null" th:text="未完了"></td> -->
+			<!-- <td th:text="ボックス"></td> -->
 			<td><a th:href="@{/tasks/show/{id}(id=*{id})}"><div th:text=*{title}></div></a></td>
 			<td th:if="*{importance}==0">★</td>
 			<td th:if="*{importance}==1">★★</td>

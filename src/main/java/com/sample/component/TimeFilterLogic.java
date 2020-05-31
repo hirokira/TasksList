@@ -84,7 +84,7 @@ public class TimeFilterLogic {
 		//---check3のみtrueの場合、listのオブジェクトの残日数が24時間以内のものをlistsに格納する。
 		}else if(check3) {  //---check2のみtrueの場合、listのオブジェクトの残日数が24時間以内のものをlistsに格納する。
 			for(int i = 0; i<list.size(); i++) {
-				if(remnantMs(list.get(i)) <= 86400000L) {
+				if(0<=(remnantMs(list.get(i))) && (remnantMs(list.get(i))) <= 86400000L) {
 					lists.add(list.get(i));
 				}
 			}
@@ -124,7 +124,7 @@ public class TimeFilterLogic {
 		if(day<=0 && hour<=0 && min<0) {
 			return "期限切れ";
 		}else {
-			return "残有効期限："+day+"日"+hour+"時"+min+"分";
+			return "残期限："+day+"日"+hour+"時"+min+"分";
 		}
 	}
 

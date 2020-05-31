@@ -37,7 +37,13 @@ public class TaskService {
 		if(list!=null) {
 			for(int i = 0; i < list.size(); i++) {  //Entity型のリストをTaskBean型のリストに入れ替え処理
 				listBean.add(new TaskBean(list.get(i)));
-				listBean.get(i).setRemnant_date(timeFilter.remnantTimeTask(list.get(i)));
+				/*---Add 2020/05/31 completion_dateがnull以外の際はRemnant_dateを"完了済"
+				                     nullの際はRemant_dateに残日数算出の処理(timeFilter.remnantTimeTaskメソッドを通す。*/
+				if((!list.get(i).getCompletion_date().equals(""))) {
+					listBean.get(i).setRemnant_date("完了済");
+				}else {
+					listBean.get(i).setRemnant_date(timeFilter.remnantTimeTask(list.get(i)));
+				}
 			}
 		}
 		return listBean;
