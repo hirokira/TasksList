@@ -7,6 +7,7 @@
 	<link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
 </head>
 <body>
+	<h1 th:text="#{content.title}"></h1>
     <!--/* ログイン失敗/ログアウトはgetパラメータにステータスが渡されているので、Thymeleafではparamから取得 */-->
     <div th:if="${param.logout}">
             You have been logged out.

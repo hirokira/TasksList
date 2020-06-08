@@ -15,15 +15,27 @@
     	select * from task where user = #{user}
     </select>
 
+    <select id = "insertdefo">
+    	insert into task values (#{id},#{user},#{title},#{detail},#{due_date},#{importance},#{completion_date},#{insert_user},#{insert_date},#{update_user},#{update_date},#{version})
+    </select>
+
     <select id = "insert">
-    	insert into task values (#{id},#{user},#{title},#{detail},#{due_date},#{importance},#{completion_date},#{insert_user},#{insert_date},#{update_user},#{update_date})
+    	insert into task (user,title,detail,due_date,importance,completion_date,insert_user,insert_date,
+    	update_user,update_date,version)values (#{user},#{title},#{detail},#{due_date},#{importance},#{completion_date},#{insert_user},#{insert_date},#{update_user},#{update_date},#{version})
     </select>
 
     <update id = "update">
     	update task set user = #{user} ,title = #{title} ,detail = #{detail},
     					due_date = #{due_date} ,importance = #{importance},completion_date = #{completion_date},
     					insert_user = #{insert_user},insert_date = #{insert_date},update_user = #{update_user},
-    					update_date = #{update_date} where id = #{id}
+    					update_date = #{update_date} ,version = #{version}+1 where id = #{id} AND version = #{version}
+    </update>
+
+    <update id = "complateButtonUpdate">
+    	update task set user = #{user} ,title = #{title} ,detail = #{detail},
+    					due_date = #{due_date} ,importance = #{importance},completion_date = #{completion_date},
+    					insert_user = #{insert_user},insert_date = #{insert_date},update_user = #{update_user},
+    					update_date = #{update_date} ,version = #{version} where id = #{id} AND version = #{version}
     </update>
 
     <select id = "checkIdResult" resultType="com.sample.entity.Task">

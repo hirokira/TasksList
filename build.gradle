@@ -32,7 +32,9 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
-	compile 'org.xerial:sqlite-jdbc:3.25.2'
+    compile('com.enigmabridge:hibernate4-sqlite-dialect:0.1.2')
+    runtime('org.xerial:sqlite-jdbc')
+    compile ('org.modelmapper:modelmapper:0.7.5')
 	compile "org.thymeleaf.extras:thymeleaf-extras-springsecurity5"
 	compile("org.webjars:jquery:3.5.1")
 	compile("org.webjars:bootstrap:3.3.5")

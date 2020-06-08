@@ -1,13 +1,21 @@
 package com.sample.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import lombok.Getter;
 import lombok.Setter;
 
 
 @Getter
 @Setter
+@Entity
 public class Task {
 
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
 	private String user;
@@ -29,5 +37,7 @@ public class Task {
 	private String insert_user;
 
 	private String insert_date;
+
+	private int version;
 
 }

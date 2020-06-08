@@ -22,6 +22,8 @@ public interface TaskMapper {
 
 	void update(Task task);
 
+	void complateButtonUpdate(Task task);
+
 	Task checkIdResult(@Param("id")Integer id);
 
 }

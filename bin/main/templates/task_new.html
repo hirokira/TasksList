@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<h1 th:text="#{content.title}"></h1>
+	<h1 ><a th:text="#{content.title}" th:href="@{'/tasks'}"></a></h1>
 	<p th:text="${msg}"></p>
 
 
@@ -17,8 +17,8 @@
 			<ul>
 				<li th:each="error : ${#fields.detailedErrors()}" class = "err" th:text="${error.message}" />
 			</ul>
-			<tr><td><label for="user">ID</label></td>
-				<td><input type="text" name="id" th:value="*{id}" /></td></tr>
+			<!-- <tr><td><label for="user">ID</label></td>
+				<td><input type="text" name="id" th:value="*{id}" /></td></tr> -->
 
 			<tr><td><label for="user">ユーザ</label></td>
 			  	<td><select id="name" name="user">
@@ -52,6 +52,7 @@
 
 			<input type="hidden" name="update_user" th:value="*{update_user}" />
 			<input type="hidden" name="update_date" th:value="*{update_date}" />
+			<input type="hidden" name="version" th:value="*{version}" />
 
 
 			<tr><td><input type="submit" value="投稿" /></td></tr>

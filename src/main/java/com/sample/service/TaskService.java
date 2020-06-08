@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import com.sample.bean.TaskBean;
@@ -22,12 +24,10 @@ public class TaskService {
 	@Autowired
 	private TimeFilterLogic timeFilter;
 
-
 	// Entityの箱に入ったリスト一覧を取得
 	public List<Task> findAll(){
 		return tasksMapper.findAll();
 	}
-
 
 	// Entity型のリストをTaskBean型のリストに変換して戻す。
 	public List<TaskBean> findAllBean(){
@@ -49,7 +49,6 @@ public class TaskService {
 		return listBean;
 	}
 
-
 	// 選んだIDのレコードを取得
 	public Task select(int id) {
 
@@ -68,10 +67,36 @@ public class TaskService {
 	}
 
 	// Task更新(UPDATE)
-	public void update(Task task) {
-		tasksMapper.update(task);
-	}
+    public void update(Task taskInfo){
+        Task target = tasksMapper.select(taskInfo.getId());
 
+	//ここで表示したときのversionと、現在のversionを比較
+        if(target.getVersion() != taskInfo.getVersion()){
+            throw new OptimisticLockingFailureException(null);
+        }else {
+	        //更新内容をsetする処理(ModelMapper使用でマッピング)
+        	ModelMapper modelMapper = new ModelMapper();
+        	target = modelMapper.map(taskInfo, Task.class);
+
+	  	//更新処理
+	        tasksMapper.update(target);
+        }
+    }
+
+	// Task更新(UPDATE)
+    public void complateButtonUpdate(Task taskInfo){
+        Task target = tasksMapper.select(taskInfo.getId());
+
+	//ここで「このアプリでの更新の流れ」①で表示したときのversionと、現在のversionを比較
+        if(target.getVersion() != taskInfo.getVersion()){
+            throw new OptimisticLockingFailureException(null);
+        }else {
+	        //更新内容をsetする処理(今回は完了日時のみなのでそれのみ更新。)
+	        target.setCompletion_date(taskInfo.getCompletion_date());
+	  	//更新処理(Versionは更新しない為、complateButtonUpdateメソッドを使用。
+	        tasksMapper.complateButtonUpdate(target);
+        }
+    }
 	//---ID登録済みチェック
 	public boolean checkIdResult(int id) {
 		if(tasksMapper.checkIdResult(id)==null) {
@@ -111,7 +136,7 @@ public class TaskService {
 	//---TaskBean　→　Taskに変換ロジック
 	public Task changeTask(TaskBean bean) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		//DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		Task task = new Task();
 		task.setId(bean.getId());
 		task.setUser(bean.getUser());
@@ -128,6 +153,7 @@ public class TaskService {
 		task.setUpdate_date(df.format(bean.getUpdate_date()));
 		task.setInsert_user(bean.getInsert_user());
 		task.setInsert_date(df.format(bean.getInsert_date()));
+		task.setVersion(bean.getVersion());
 		return task;
 	}
 }

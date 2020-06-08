@@ -39,6 +39,7 @@ public class TaskBean {
 		this.update_date=Date.valueOf(task.getUpdate_date());  //String型→sql.Date型に変換してセット。
 		this.insert_user=task.getInsert_user();
 		this.insert_date=Date.valueOf(task.getInsert_date());  //String型→sql.Date型に変換してセット。
+		this.version=task.getVersion();
 	}
 
 	@NotNull(message="IDを入力してください。")
@@ -74,5 +75,6 @@ public class TaskBean {
 
 	private String remnant_date;
 
+	private int version;
 
 }

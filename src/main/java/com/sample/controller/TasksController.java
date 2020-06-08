@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -103,6 +104,7 @@ public class TasksController {
 		mav.addObject("listBean", listBean);
 
 		mav.setViewName("task_new");
+
 		TaskBean bean = new TaskBean();
 		mav.addObject("loginUser", sessionUser.getLoginUser());
 		bean.setDue_date(null);
@@ -113,6 +115,10 @@ public class TasksController {
 		//---登録ユーザーと更新ユーザーにログインユーザー情報をセットする。
 		bean.setInsert_user(sessionUser.getLoginUser().getName());
 		bean.setUpdate_user(sessionUser.getLoginUser().getName());
+
+		//---登録時のバージョンは"1"固定なので、セットする。
+		bean.setVersion(1);
+
 		mav.addObject("formModel", bean);
 		return mav;
 	}
@@ -148,7 +154,7 @@ public class TasksController {
 									BindingResult result , ModelAndView mav) {
 		ModelAndView res = null;
 
-		if(!result.hasErrors() && !tasksService.checkIdResult(task.getId())) {//---バリデーション結果にエラーがないかつ重複IDがない
+		if(!result.hasErrors() /*&& !tasksService.checkIdResult(task.getId())*/) {//---バリデーション結果にエラーがないかつ重複IDがない
 			tasksService.insert(tasksService.changeTask(task));//---TaskBean型のオブジェクトをTask型に変換し、INSERT処理を行う。
 			session.setAttribute("flush", "タスクの登録が完了しました。");
 			res = new ModelAndView("redirect:/tasks");
@@ -205,7 +211,13 @@ public class TasksController {
 										BindingResult result,ModelAndView mav) {
 		ModelAndView res = null;
 		if(!result.hasErrors()) {
-			tasksService.update(tasksService.changeTask(taskBean));
+			try {
+				tasksService.update(tasksService.changeTask(taskBean));
+			}catch(OptimisticLockingFailureException e) {
+				session.setAttribute("flush", "Updateしたレコードのバージョンが古いため、更新できませんでした。");
+				res = new ModelAndView("redirect:/tasks");
+				return res;
+			}
 			session.setAttribute("flush", "タスクの更新が完了しました。");
 			res = new ModelAndView("redirect:/tasks");
 		}else {
@@ -221,16 +233,30 @@ public class TasksController {
 		return res;
 	}
 
-
 	//---Task完了処理Update_complete
 	@RequestMapping(value="/tasks/update",params="complete",method=RequestMethod.POST)
 	public ModelAndView tasks_update_complete(@RequestParam("id")int id,ModelAndView mav) {
 		ModelAndView res = null;
 		TaskBean bean = tasksService.selectBean(id);//---完了するIDのtask情報をTaskBean化して取得。
 		bean.setCompletion_date(new Date(System.currentTimeMillis()));//---完了日時情報に現在日時をセットする。
-		tasksService.update(tasksService.changeTask(bean));
+		tasksService.complateButtonUpdate(tasksService.changeTask(bean));
 		session.setAttribute("flush", "タスクが完了しました。");
 		res = new ModelAndView("redirect:/tasks");
+		return res;
+	}
+
+	//---ToDo 2020/5/31 "未完了"画像クリック時にUpdate出来るようにする。
+	//---Task完了処理Update_index_complete
+	@RequestMapping(value="/tasks/hello",method=RequestMethod.POST)
+	public ModelAndView tasks_index_complete(@RequestParam("id")int id,ModelAndView mav) {
+		ModelAndView res = null;
+		mav.setViewName("hello");
+		//TaskBean bean = tasksService.selectBean(id);//---完了するIDのtask情報をTaskBean化して取得。
+		//bean.setCompletion_date(new Date(System.currentTimeMillis()));//---完了日時情報に現在日時をセットする。
+		//tasksService.update(tasksService.changeTask(bean));
+		session.setAttribute("flush", "タスクが完了しました。");
+		//res = new ModelAndView("redirect:/tasks");
+		res = mav;
 		return res;
 	}
 
