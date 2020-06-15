@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import com.sample.bean.UserBean;
@@ -46,9 +48,22 @@ public class UserService {
 		userMapper.insert(user);
 	}
 
-	//---ユーザー情報アップデート
-	public void update(User user) {
-		userMapper.update(user);
+	//---ユーザー情報アップデート 2020/06/08 add 楽観ロック処理とModelMapperを使用したマッピング追記。
+	public void update(User userInfo) {
+		User target = userMapper.select(userInfo.getId());
+
+		//ここで表示したときのversionと、現在のversionを比較
+		if(target.getVersion() != userInfo.getVersion()) {
+			throw new OptimisticLockingFailureException(null);
+		}else {
+			//更新内容をマッピングする処理を行う。
+			ModelMapper modelMapper = new ModelMapper();
+			target = modelMapper.map(userInfo, User.class);
+
+			//更新処理を行う。
+			userMapper.update(target);
+
+		}
 	}
 
 	//---選択したIDのユーザー情報取得
@@ -135,7 +150,7 @@ public class UserService {
 	//---UserBean　→　Userに変換ロジック
 	public User changeUser(UserBean bean) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		//DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		User user = new User();
 		user.setId(Integer.parseInt(bean.getId()));
 		user.setName(bean.getName());
@@ -153,6 +168,9 @@ public class UserService {
 		user.setUpdate_date(df.format(bean.getUpdate_date()));
 		user.setInsert_user(bean.getInsert_user());
 		user.setInsert_date(df.format(bean.getInsert_date()));
+
+		//---2020/06/08 add 楽観ロック実装の為、バージョン追加。
+		user.setVersion(bean.getVersion());
 		return user;
 	}
 

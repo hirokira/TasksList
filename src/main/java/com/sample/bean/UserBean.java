@@ -31,15 +31,14 @@ public class UserBean {
 		this.active_from =Date.valueOf(user.getActive_from());
 		this.active_to = Date.valueOf(user.getActive_to());
 		this.update_user=user.getUpdate_user();
-		//----ToDo----うまく動作しない。
 		this.update_date=Date.valueOf(user.getUpdate_date());
 		this.insert_user=user.getInsert_user();
 		this.insert_date=Date.valueOf(user.getInsert_date());
+		//---2020/06/08 add 楽観ロック実装の為、バージョン追加。
+		this.version=user.getVersion();
 	}
 
-
-	@NotNull
-	@NotEmpty(message="IDを入力してください。")
+	@NotNull(message="IDを入力してください。")
 	@Length(max=10)
 	private String id;
 
@@ -69,6 +68,8 @@ public class UserBean {
 	private Date insert_date;
 
 	private String remnant_date;
+	//---2020/06/08 add 楽観ロック実装の為、バージョン追加。
+	private int version;
 
 
 }

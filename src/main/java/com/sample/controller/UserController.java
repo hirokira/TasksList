@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -74,30 +75,6 @@ public class UserController {
 		return mav;
 	}
 
-	//ユーザー強制作成(/user/new2)
-	@RequestMapping(value="/user/new2",method=RequestMethod.GET)
-	public ModelAndView user_new2(ModelAndView mav) {
-
-		UserBean userBean = new UserBean();
-		Date date = new Date(System.currentTimeMillis());
-		User user = new User();
-		userBean.setId("1");
-		userBean.setName("admin");
-		userBean.setNickName("管理者");
-		userBean.setPassword("admin");
-		userBean.setActive_from(date);
-		userBean.setActive_to(date);
-		userBean.setUpdate_user("admin");
-		userBean.setUpdate_date(date);
-		userBean.setInsert_user("admin");
-		userBean.setInsert_date(date);
-		user = userService.changeUser(userBean);
-		userService.insert(user);
-		mav = new ModelAndView("redirect:/user/index");
-		return mav;
-	}
-
-
 	//ユーザー新規作成(/user/new)
 	@RequestMapping(value="/user/new",method=RequestMethod.GET)
 	public ModelAndView user_new(ModelAndView mav) {
@@ -110,6 +87,8 @@ public class UserController {
 		user.setInsert_date(date);
 		user.setUpdate_user(sessionUser.getLoginUser().getName());
 		user.setUpdate_date(date);
+		//---2020/06/08 add 楽観ロック実装の為、Versionに初期値"1"を追記
+		user.setVersion(1);
 		mav.setViewName("user_new");
 		mav.addObject("flag", false);
 		mav.addObject("formModel",user);
@@ -181,19 +160,24 @@ public class UserController {
 									BindingResult result, ModelAndView mav) {
 		ModelAndView res = null;
 		boolean errorFlag=false;
-		User user = new User();
 
-		if(!result.hasErrors()) {  //---Validateにエラーがない　かつ、IDとNAMEの重複がなければINSERT可能とする(flag=true)
-			user = userService.changeUser(userBean);
+		if(!result.hasErrors()) {
 			errorFlag = true;
 		}
-
-		if(errorFlag) {  //---UPDATE処理
-				userService.update(user);
-				session.setAttribute("flush", "更新が完了しました。");
+		if(errorFlag) {  //---UPDATE処理 2020/06/08 楽観ロック処理追加 L190-195
+			try {
+				userService.update(userService.changeUser(userBean));
+			}catch(OptimisticLockingFailureException e) {
+				session.setAttribute("flush", "Updateしたレコードのバージョンが古いため、更新できませんでした。");
 				res = new ModelAndView("redirect:/user/index");
+				return res;
+			}
+			session.setAttribute("flush", "ユーザーの更新が完了しました。");
+			res = new ModelAndView("redirect:/user/index");
 		}else {    //---errorFlagがfalseの場合
-			mav.setViewName("user_new");
+			boolean editFlag=true; //--編集モードをONにする。
+			mav.addObject("editFlag", editFlag); //編集モードをセット
+			mav.setViewName("user_show");
 			mav.addObject("formModel", userBean);
 			res = mav;
 		}

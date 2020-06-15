@@ -11,18 +11,22 @@
     	select * from user where id = #{id}
     </select>
 
-
     <select id = "findSelectUser" resultType="com.sample.entity.User">
     	select * from user where name = #{name}
     </select>
 
+    <select id = "insertdefo">
+    	insert into user values (#{id},#{name},#{password},#{nickName},#{active_from},#{active_to},#{update_user},#{update_date},#{insert_user},#{insert_date},#{version})
+    </select>
+
     <select id = "insert">
-    	insert into user values (#{id},#{name},#{password},#{nickName},#{active_from},#{active_to},#{update_user},#{update_date},#{insert_user},#{insert_date})
+    	insert into user (id,name,password,nickName,active_from,active_to,update_user,update_date,insert_user,insert_date,version)
+    	values (#{id},#{name},#{password},#{nickName},#{active_from},#{active_to},#{update_user},#{update_date},#{insert_user},#{insert_date},#{version})
     </select>
 
     <update id = "update">
     	update user set name = #{name} ,password = #{password} ,nickName = #{nickName},
-    					active_from = #{active_from} ,active_to = #{active_to},update_user = #{update_user},update_date = #{update_date} where id = #{id}
+    					active_from = #{active_from} ,active_to = #{active_to},update_user = #{update_user},update_date = #{update_date},version = #{version}+1 where id = #{id} AND version = #{version}
     </update>
 
     <select id = "delete">

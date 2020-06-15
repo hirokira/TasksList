@@ -35,7 +35,7 @@
 	<br />
 
 	<table>
-		<tr><th>ID</th><th>名前</th><th>表示名</th><th>有効開始日</th><th>有効終了日</th><th>残有効期限</th><th>登録ユーザー</th></tr>
+		<tr><th>ID</th><th>名前</th><th>表示名</th><th>有効開始日</th><th>有効終了日</th><th>残有効期限</th><th>登録ユーザー</th><th>Version</th></tr>
 		<tr th:each="obj : ${listBean}" th:object="${obj}">
 			<td><a th:href="@{/user/show/{id}(id=*{id})}"><div th:text=*{id}></div></a></td>
 			<td th:text="*{name}"></td>
@@ -43,7 +43,8 @@
 			<td th:text="*{active_from}"></td>
 			<td th:text="*{active_to}"></td>
 			<td th:text="*{remnant_date}"></td>
-			<td th:text="*{insert_user}"></td></tr>
+			<td th:text="*{insert_user}"></td>
+			<td th:text="*{version}"></td></tr>
 	</table>
 
 	<div>
